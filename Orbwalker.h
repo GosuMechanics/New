@@ -1,5 +1,19 @@
+#pragma once
+#include <time.h>
+#include "Engine.h"
+#include <string>
+#include "CObject.h"
+
 class OrbWalker
 {
+
+	ULONGLONG movetimer, attacktimer;
+
+	float pWindMultipler = 9999.9f;
+	bool attackmove = true;
+
+	float HoldRadius = 100;
+	bool RButton = false;
 
 public:
 
@@ -9,7 +23,7 @@ public:
 		if (cursorpos.DistTo(me->GetPos()) <= HoldRadius)
 			return;
 
-		if (VK_SPACE)
+		if (RButton) // if true auto right clicker enabled-- if false issueorder moveto enabled
 		{
 			POINT CurPos;
 			GetCursorPos(&CurPos);
@@ -105,10 +119,5 @@ public:
 			}
 		}
 	}
+};
 
-	ULONGLONG movetimer, attacktimer;
-
-	float pWindMultipler = 9999.9f;
-	bool attackmove = true;
-
-	float HoldRadius = 100;
