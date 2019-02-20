@@ -28,20 +28,24 @@ HRESULT WINAPI Hooked_Present(DWORD Device, CONST RECT *pSrcRect, CONST RECT *pD
 		if (me->IsAlive()) {
 			auto color = createRGB(0, 255, 0);
 			Functions.DrawCircle(&me->GetPos(), me->GetAttackRange() + me->GetBoundingRadius(), &color, 0, 0.0f, 0, 0.5f);
-
-			{
-			}
 		}
 	}
 
+	//sample : Now you just need to make a decent one by yourself, just search in the forum for all the other things you want to know, they are all there..
+	// i recommend watching C++ tutorial for better understanding on how to make private script. GOODLUCK!
 	if (ObjManager) {
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < ObjManager->MaxObjects; i++) {
 			CObject* obj = Engine::GetObjectByID(i);
-			if (obj) {
+
+			if (obj != NULL) {
 				if (obj->IsHero()) {
 					if (obj->IsAlive() && obj->IsVisible() && obj->GetTeam() != me->GetTeam()) {
-						auto color = createRGB(255, 0, 0);
-						Functions.DrawCircle(&obj->GetPos(), obj->GetAttackRange() + obj->GetBoundingRadius(), &color, 0, 0.0f, 0, 0.5f); //Draw range
+						if (obj->GetPos().DistTo(me->GetPos()) <= me->GetAttackRange() + me->GetBoundingRadius()) {
+							Engine::AttackTarget(obj);
+							auto color = createRGB(255, 0, 0);
+							Functions.DrawCircle(&obj->GetPos(), obj->GetAttackRange() + obj->GetBoundingRadius(), &color, 0, 0.0f, 0, 0.5f); //Draw range
+
+						}
 					}
 				}
 			}
